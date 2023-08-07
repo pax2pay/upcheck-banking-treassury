@@ -10,7 +10,7 @@ const client = process.env.url ? pax2pay.Client.create(process.env.url, "") : un
 client && (client.realm = "test")
 let token: string | gracely.Error
 
-describe("library", () => {
+describe("Compare fiat and e-money", () => {
 	beforeAll(async () => {
 		const key = await client?.userwidgets.me.login({
 			user: process.env.email ?? "",
@@ -22,7 +22,7 @@ describe("library", () => {
 	it("get token", async () => {
 		expect(typeof token == "string").toBeTruthy()
 	})
-	it("", async () => {
+	it("e-money less or equal to safeguarded funds", async () => {
 		const fiat = await client?.treasury.fetch()
 		expect(gracely.Error.is(fiat)).toBe(false)
 		Object.entries(fiat as pax2pay.Treasury).forEach(balance => {
