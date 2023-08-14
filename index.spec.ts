@@ -7,7 +7,7 @@ import * as dotenv from "dotenv"
 dotenv.config()
 
 const client = process.env.url ? pax2pay.Client.create(process.env.url, "") : undefined
-client && (client.realm = "test")
+client && (client.realm = "testUK")
 let token: string | gracely.Error
 
 describe("Compare fiat and e-money", () => {
@@ -25,8 +25,9 @@ describe("Compare fiat and e-money", () => {
 	it("e-money less or equal to safeguarded funds", async () => {
 		const fiat = await client?.treasury.fetch()
 		expect(gracely.Error.is(fiat)).toBe(false)
-		Object.entries(fiat as pax2pay.Treasury).forEach(balance => {
-			expect(balance[1].fiat.safe >= (balance[1].eMoney.actual ?? 0)).toBe(true)
-		})
+		console.log(fiat)
+		Object.entries(fiat as pax2pay.Treasury).forEach(balance =>
+			expect(balance[1].fiat.safe).toBeGreaterThanOrEqual(balance[1].eMoney.actual ?? 0)
+		)
 	})
 })
