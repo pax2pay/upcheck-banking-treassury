@@ -19,13 +19,13 @@ commands:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-  test-pax2pay-banking-treassury-api:
-    description: "Pax2pay banking treassury API tests"
+  test-pax2pay-banking-treasury-api:
+    description: "Pax2pay banking treasury API tests"
     steps:
       - prepare
       - run: mkdir -p workspace
       - run:
-          name: Run Pax2pay banking treassury API tests
+          name: Run Pax2pay banking treasury API tests
           command: |
             if npm run test &> workspace/output ; then
               echo 'export TESTS_PASS=true' >> $BASH_ENV
@@ -48,29 +48,29 @@ commands:
               exit 1
             fi
 jobs:
-   pax2pay-banking-treassury-api-mute:
+   pax2pay-banking-treasury-api-mute:
     executor: node/default
     <<: *default
     steps:
-      - test-pax2pay-banking-treassury-api
+      - test-pax2pay-banking-treasury-api
       - attach_workspace:
           at: workspace
-   pax2pay-banking-treassury-api-quiet:
+   pax2pay-banking-treasury-api-quiet:
     executor: node/default
     <<: *default
     steps:
-      - test-pax2pay-banking-treassury-api
+      - test-pax2pay-banking-treasury-api
       - attach_workspace:
           at: workspace
       - slack/notify:
           event: fail
           mentions: '@here'
           template: basic_fail_1
-   pax2pay-banking-treassury-api-notify:
+   pax2pay-banking-treasury-api-notify:
     executor: node/default
     <<: *default
     steps:
-      - test-pax2pay-banking-treassury-api
+      - test-pax2pay-banking-treasury-api
       - attach_workspace:
           at: workspace
       - slack/notify:
@@ -81,7 +81,7 @@ jobs:
           event: pass
           template: basic_success_1
 workflows:
-  pax2pay-banking-treassury:
+  pax2pay-banking-treasury:
     triggers:
       - schedule:
           cron: "7,17,27,47,57 * * * *"
@@ -99,7 +99,7 @@ workflows:
             branches:
               only: master
     jobs:
-      - pax2pay-banking-treassury-api-quiet
+      - pax2pay-banking-treasury-api-quiet
   daily:
     triggers:
       - schedule:
@@ -108,7 +108,7 @@ workflows:
             branches:
               only: master
     jobs:
-      - pax2pay-banking-treassury-api-notify
+      - pax2pay-banking-treasury-api-notify
   build:
     jobs:
-      - pax2pay-banking-treassury-api-mute
+      - pax2pay-banking-treasury-api-mute
