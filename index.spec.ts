@@ -28,7 +28,7 @@ describe("Compare fiat and e-money", () => {
 		expect(gracely.Error.is(fiat)).toBe(false)
 		console.log(fiat)
 		Object.entries(fiat as pax2pay.Treasury).forEach(balance =>
-			expect(balance[1].fiat.safe).toBeGreaterThanOrEqual(balance[1].eMoney.actual ?? 0)
+			expect(balance[1].fiat.safe).toBeGreaterThanOrEqual(balance[1].emoney.actual ?? 0)
 		)
 	})
 })
