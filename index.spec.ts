@@ -1,4 +1,5 @@
 import { gracely } from "gracely"
+import { isoly } from "isoly"
 import "jest"
 import { pax2pay } from "@pax2pay/model-banking"
 import { userwidgets } from "@userwidgets/model"
@@ -24,7 +25,7 @@ describe("Compare fiat and e-money", () => {
 		expect(typeof token == "string").toBeTruthy()
 	})
 	it("e-money less or equal to safeguarded funds", async () => {
-		const fiat = await client?.treasury.fetch()
+		const fiat = await client?.treasury.fetch(isoly.DateTime.now())
 		expect(gracely.Error.is(fiat)).toBe(false)
 		console.log(fiat)
 		Object.entries(fiat as pax2pay.Treasury).forEach(balance =>
