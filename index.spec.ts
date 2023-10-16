@@ -2,7 +2,6 @@ import { gracely } from "gracely"
 import { isoly } from "isoly"
 import "jest"
 import { pax2pay } from "@pax2pay/model-banking"
-import { userwidgets } from "@userwidgets/model"
 import * as dotenv from "dotenv"
 
 dotenv.config()
@@ -18,8 +17,8 @@ describe("Compare fiat and e-money", () => {
 			user: process.env.email ?? "",
 			password: process.env.password ?? "",
 		})
-		token = userwidgets.User.Key.is(key) ? key.token : gracely.client.unauthorized()
-		typeof token == "string" && client && (client.key = token)
+		token = !gracely.Error.is(key) && key?.token ? key.token : gracely.client.unauthorized()
+		!gracely.Error.is(token) && client && (client.key = token)
 	})
 	it("get token", async () => {
 		expect(typeof token == "string").toBeTruthy()
