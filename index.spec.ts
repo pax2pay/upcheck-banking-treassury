@@ -13,7 +13,7 @@ let token: string | gracely.Error
 
 describe("Compare fiat and e-money", () => {
 	beforeAll(async () => {
-		const key = await client?.userwidgets.me.login({
+		const key = await client?.userwidgets("https://user.pax2pay.app", "https://dash.pax2pay.app").me.login({
 			user: process.env.email ?? "",
 			password: process.env.password ?? "",
 		})
@@ -25,8 +25,8 @@ describe("Compare fiat and e-money", () => {
 	})
 	it("e-money less or equal to safeguarded funds", async () => {
 		const fiat = await client?.treasury.fetch(isoly.DateTime.now())
-		expect(gracely.Error.is(fiat)).toBe(false)
 		console.log(fiat)
+		expect(gracely.Error.is(fiat)).toBe(false)
 		Object.entries(fiat as pax2pay.Treasury).forEach(balance =>
 			expect(balance[1].fiat.safe).toBeGreaterThanOrEqual(balance[1].emoney.actual ?? 0)
 		)
